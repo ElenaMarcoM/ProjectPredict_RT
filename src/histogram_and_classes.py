@@ -5,8 +5,8 @@ from collections import defaultdict
 
 def get_class_dict_and_histogram(top_n):
     # Files
-    tsv_file = "tests_for_smrt/resources/smrt_classified.tsv"
-    hist_file = "tests_for_smrt/results/histogram.png"
+    tsv_file = "resources/smrt_classified.tsv"
+    hist_file = "results/histogram.png"
 
     # Read the TSV file line by line
     data = []
@@ -48,3 +48,36 @@ def get_class_dict_and_histogram(top_n):
         plt.close()
 
     return result
+
+# --- New Function ---
+def plot_training_history(history, title="Model Loss (MAE)", figsize=(10, 6)):
+    """
+    Plots training and validation loss over epochs.
+
+    Parameters:
+    - history: the history object returned by model.fit()
+    - title: title of the plot
+    - figsize: size of the figure
+    """
+    plt.figure(figsize=figsize)
+
+    # Plot training & validation loss
+    plt.plot(history.history['loss'], label='Training Loss (MAE)', linewidth=2)
+    plt.plot(history.history['val_loss'], label='Validation Loss (MAE)', linewidth=2)
+
+    plt.title(title, fontsize=16)
+    plt.xlabel('Epoch', fontsize=12)
+    plt.ylabel('Mean Absolute Error', fontsize=12)
+    plt.legend(fontsize=12)
+    plt.grid(True, alpha=0.3)
+
+    # Optional: add a marker for the best validation loss
+    best_epoch = history.history['val_loss'].index(min(history.history['val_loss'])) + 1
+    plt.axvline(x=best_epoch, color='r', linestyle='--', alpha=0.7,
+                label=f'Best Val Loss (Epoch {best_epoch})')
+
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+# --------------------
+

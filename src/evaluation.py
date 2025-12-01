@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 
 def save_results_histogram(results_df):
-    output_file = "tests_for_smrt/results/mae_vs_frequency.png"
+    output_file = "results1/mae_vs_frequency.png"
 
     # Create scatter plot
     plt.figure(figsize=(12, 8))
@@ -50,7 +50,7 @@ def save_results_histogram(results_df):
     plt.tight_layout()
 
     # Save the plot
-    output_file = "tests_for_smrt/results/normalized_mae_vs_frequency.png"
+    output_file = "results1/normalized_mae_vs_frequency.png"
     plt.savefig(output_file)
     plt.close()
 
