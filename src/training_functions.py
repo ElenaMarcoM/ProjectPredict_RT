@@ -10,7 +10,8 @@ from tensorflow.keras.layers import Dense, Input, Dropout, Concatenate, Lambda
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from sklearn.metrics import mean_absolute_error, median_absolute_error, mean_squared_error, r2_score, \
-    mean_absolute_percentage_error, mean_squared_percentage_error, median_absolute_percentage_error
+    mean_absolute_percentage_error
+# from sktime.performance_metrics.forecasting import mean_squared_percentage_error, median_absolute_percentage_error
 import tensorflow as tf
 import gc
 
@@ -173,7 +174,7 @@ def training(class_dict):
             plt.legend()
             plt.tight_layout()
             #TODO: NEW
-            plt.savefig(os.join.path("result1", f"{title}.png"))
+            plt.savefig(os.path.join("results1", f"{title}.png"))
             plt.show()
 
         plot_training_history(history, group_name=class_name)
@@ -204,15 +205,14 @@ def training(class_dict):
         mse = mean_squared_error(y_test, y_pred)
         r2 = r2_score(y_pred, y_pred_lin)
         mape = mean_absolute_percentage_error(y_test, y_pred)
-        mspe = mean_squared_percentage_error(y_test, y_pred)
-        medape = median_absolute_percentage_error(y_test, y_pred)
+        #TODO: NEW
+        # mspe = mean_squared_percentage_error(y_test, y_pred) ERROR: This function does NOT exist in sklearn.metrics
+        # medape = median_absolute_percentage_error(y_test, y_pred) ERROR: This function does NOT exist in sklearn.metrics
         print("\nMAE:", mae,
               "\nMEDAE:", medae,
               "\nMSE:", mse,
               "\nRMSE:", r2,
-              "\nMAPE:", mape,
-              "\nMSPE:", mspe,
-              "\nMEDAPE:", medape)
+              "\nMAPE:", mape)
 
         def plot_scatter(y_true, y_pred, y_pred_lin, r2, save_path, title_prefix=""):
             plt.figure(figsize=(8, 6))
@@ -223,6 +223,7 @@ def training(class_dict):
             plt.ylabel('Predicted Values')
             plt.legend()
             plt.savefig(save_path)
+            plt.show()
             plt.close()
             # Store results
             results.append({
@@ -245,7 +246,7 @@ def training(class_dict):
                     # Por si el nombre del dispositivo no cuadra exacto
                     pass
         #TODO: NEW
-        plot_scatter(y_test, y_pred, y_pred_lin, r2, os.join.path('results1',f'{class_name}_ScatterPlot.png' ), title_prefix = class_name)
+        plot_scatter(y_test, y_pred, y_pred_lin, r2, os.path.join('results1',f'{class_name}_ScatterPlot.png' ), title_prefix = class_name)
 
     # Create results DataFrame
     results_df = pd.DataFrame(results)
