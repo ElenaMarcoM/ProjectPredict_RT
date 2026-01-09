@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import numpy as np
+import joblib
 from matplotlib import pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -19,6 +20,8 @@ import gc
 def training(class_dict):
     # Files
     fingerprints_file = "resources/smrt_fingerprints.csv"
+    model_path = "resources/model_genericv1.h5"
+    scaler_path = "resources/scaler.pkl"
 
     # Read fingerprints CSV
     df_fingerprints = pd.read_csv(fingerprints_file)
@@ -135,13 +138,12 @@ def training(class_dict):
         history = model.fit(
             X_train, y_train_scaled,
             validation_data=(X_val, y_val_scaled),
-            epochs=10,
+            epochs=100,
             batch_size=32,
             callbacks=[early_stopping, reduce_lr],
             verbose=1
         )
 
-        # TODO: NEW
         def plot_training_history(history, title="Model Loss (MAE)", figsize=(10, 6), group_name = None):
             """
             Plots training and validation loss over epochs.
@@ -152,7 +154,6 @@ def training(class_dict):
             - figsize: size of the figure
             """
             plt.figure(figsize=figsize)
-            # TODO: NEW
             if group_name:
                 title = f"{title} – {group_name}"
 
@@ -173,7 +174,6 @@ def training(class_dict):
 
             plt.legend()
             plt.tight_layout()
-            #TODO: NEW
             plt.savefig(os.path.join("results1", f"{title}.png"))
             plt.show()
 
@@ -205,7 +205,6 @@ def training(class_dict):
         mse = mean_squared_error(y_test, y_pred)
         r2 = r2_score(y_pred, y_pred_lin)
         mape = mean_absolute_percentage_error(y_test, y_pred)
-        #TODO: NEW
         # mspe = mean_squared_percentage_error(y_test, y_pred) ERROR: This function does NOT exist in sklearn.metrics
         # medape = median_absolute_percentage_error(y_test, y_pred) ERROR: This function does NOT exist in sklearn.metrics
         print("\nMAE:", mae,
@@ -245,11 +244,12 @@ def training(class_dict):
                 except ValueError:
                     # Por si el nombre del dispositivo no cuadra exacto
                     pass
-        #TODO: NEW
         plot_scatter(y_test, y_pred, y_pred_lin, r2, os.path.join('results1',f'{class_name}_ScatterPlot.png' ), title_prefix = class_name)
 
     # Create results DataFrame
     results_df = pd.DataFrame(results)
+    model.save(model_path)
+    joblib.dump(scaler, scaler_path)
 
     return results_df
 

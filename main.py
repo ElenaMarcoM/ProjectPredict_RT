@@ -1,4 +1,7 @@
+import pickle
 import pandas as pd
+import matplotlib.pyplot as plt
+import os
 #from src.classifyre import classify_with_classyfire
 #from src.big_file import big_file_classifier
 from src.evaluation import save_results_histogram
@@ -7,7 +10,7 @@ from src.training_functions import training
 
 if __name__ == "__main__":
     # Parameters:
-    train_using_classes = True
+    train_using_classes = False
 
     # classify_with_classyfire()
     # big_file_classifier()
@@ -25,5 +28,3 @@ if __name__ == "__main__":
 
     # classification_elena()
     # training_elena()
-
-
