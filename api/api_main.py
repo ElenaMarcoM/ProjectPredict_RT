@@ -13,8 +13,14 @@ current_file = os.path.abspath(__file__)
 api_dir = os.path.dirname(current_file)
 project_root = os.path.dirname(api_dir)
 
-model_path = os.path.join(project_root, "resources", "model_genericv1.h5")
+# For docker a different version of the model was used that does not use lambda was employed
+# Docker gives an error when loading the original model "model.h5"
+model_path = os.path.join(project_root, "resources", "model_baby.h5")
 scaler_path = os.path.join(project_root, "resources", "scaler.pkl")
+
+# Uncomment to load model for LOCAL API
+# Use the following command in the project console:  python -m uvicorn api.api_main:app --port 8000
+#model_path = os.path.join(project_root, "resources", "model.h5")
 
 service = InferenceService(
     model_path=model_path,

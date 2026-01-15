@@ -32,6 +32,6 @@ if __name__ == "__main__":
 """
 if __name__ == "__main__":
 
-    MODEL_PATH = os.path.join("resources", "model_genericv1.h5")
+    MODEL_PATH = os.path.join("resources", "model.h5")
     model = load_model(MODEL_PATH, compile=False)
     print(model.summary())

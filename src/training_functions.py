@@ -20,7 +20,7 @@ import gc
 def training(class_dict):
     # Files
     fingerprints_file = "resources/smrt_fingerprints.csv"
-    model_path = "resources/model_genericv1.h5"
+    model_path = "resources/model.h5"
     scaler_path = "resources/scaler.pkl"
 
     # Read fingerprints CSV
@@ -42,13 +42,12 @@ def training(class_dict):
         if not valid_inchis:
             continue
 
-        # Get corresponding fingerprint data
         class_df = df_fingerprints[df_fingerprints['inchi'].isin(valid_inchis)]
-        X = class_df.filter(regex='^V\d+').values  # Fingerprint features
-        y = class_df['rt'].values.reshape(-1, 1)  # Target (retention time), reshaped for scaler
+        X = class_df.filter(regex='^V\d+').values
+        y = class_df['rt'].values.reshape(-1, 1)
 
         # Skip if insufficient data
-        if len(X) < 5:  # Need enough samples for meaningful splits
+        if len(X) < 5:
             continue
 
         # 80/20 train-test split
