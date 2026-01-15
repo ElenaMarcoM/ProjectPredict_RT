@@ -14,8 +14,9 @@ api_dir = os.path.dirname(current_file)
 project_root = os.path.dirname(api_dir)
 
 # For docker a different version of the model was used that does not use lambda was employed
-# Docker gives an error when loading the original model "model.h5"
-model_path = os.path.join(project_root, "resources", "model_baby.h5")
+
+# Docker gives an error when loading the original model "model.h5", so instead "model_simple.h5"
+model_path = os.path.join(project_root, "resources", "model_simple.h5")
 scaler_path = os.path.join(project_root, "resources", "scaler.pkl")
 
 # Uncomment to load model for LOCAL API

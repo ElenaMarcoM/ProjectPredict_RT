@@ -50,8 +50,8 @@ def test_inchi_invalid():
 def test_inference_ok():
     print("=== TEST INFERENCE OK ===")
     root = os.getcwd()
-    model_path = os.path.join(root, "results_elena", "model_baby.h5")
-    scaler_path = os.path.join(root, "results_elena", "scaler.pkl")
+    model_path = os.path.join(root, "resources", "model_simple.h5")
+    scaler_path = os.path.join(root, "recources", "scaler.pkl")
 
     service = InferenceService(model_path=model_path, scaler_path=scaler_path, model_name="generic_v1")
     service.load()
@@ -71,8 +71,8 @@ def test_inference_inchi_ok():
     inchi_ethanol = "InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3"
 
     root = os.getcwd()
-    model_path = os.path.join(root, "results_elena", "model_baby.h5")
-    scaler_path = os.path.join(root, "results_elena", "scaler.pkl")
+    model_path = os.path.join(root, "resources", "model_simple.h5")
+    scaler_path = os.path.join(root, "resources", "scaler.pkl")
 
     service = InferenceService(model_path=model_path, scaler_path=scaler_path, model_name="generic_v1")
     service.load()
@@ -88,8 +88,8 @@ def test_inference_inchi_ok():
 def test_inference_missing_input():
     print("=== TEST INFERENCE MISSING INPUT ===")
     root = os.getcwd()
-    model_path = os.path.join(root, "results_elena", "model_baby.h5")
-    scaler_path = os.path.join(root, "results_elena", "scaler.pkl")
+    model_path = os.path.join(root, "resources", "model_simple.h5")
+    scaler_path = os.path.join(root, "resources", "scaler.pkl")
 
     service = InferenceService(model_path=model_path, scaler_path=scaler_path, model_name="generic_v1")
     service.load()
