@@ -134,6 +134,7 @@ def compounds_per_class(classified_rtdata, classesFile, group_crit, outputFile, 
     plot_class_histogram(outputFile, histogram_path, group_crit, min_count=10 )
     print(f"Filed saved correctly: {outputFile}")
 
+
 def subgroups_basedon_superclass(sqlHost, sqlUser, sqlPassword, sqlDatabase, group_crit, parentsFile, outputFile):
     """
         Access the database compounds.20231121.spl and matches the given parents in parentsFile with the ones

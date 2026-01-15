@@ -50,22 +50,18 @@ def training(class_dict):
         if len(X) < 5:
             continue
 
-        # 80/20 train-test split
         X_train_val, X_test, y_train_val, y_test = train_test_split(
             X, y, test_size=0.2, random_state=42
         )
 
-        # 80/20 train-validation split from train_val
         X_train, X_val, y_train, y_val = train_test_split(
             X_train_val, y_train_val, test_size=0.2, random_state=42
         )
 
-        # Calculate 10th and 90th quantiles for rt values
         q10 = np.percentile(y_train, 10)
         q90 = np.percentile(y_train, 90)
-        rt_range = q90 - q10 if q90 != q10 else 1  # Avoid division by zero
+        rt_range = q90 - q10 if q90 != q10 else 1
 
-        # Fit scaler on training rt values and transform train, val, test
         y_train_scaled = scaler.fit_transform(y_train)
         y_val_scaled = scaler.transform(y_val)
         y_test_scaled = scaler.transform(y_test)
@@ -105,9 +101,9 @@ def training(class_dict):
         # C: igual que B
         xc = Dense(1024, activation="relu")(c)
         xc = Dense(128, activation="relu")(xc)
-        # Merge
+
         m = Concatenate()([xa, xb, xc])
-        # MLP final
+
         h = Dense(128, activation="relu")(m)
         h = Dense(64, activation="relu")(h)
         out = Dense(1)(h)
@@ -182,18 +178,14 @@ def training(class_dict):
         y_pred_scaled = model.predict(X_test)
         y_pred = scaler.inverse_transform(y_pred_scaled)
         """
-        # Predictions and test unscaled
+
         pred_scaled = model.predict([X_test], batch_size=32, verbose=0).flatten()
         y_pred = scaler.inverse_transform(pred_scaled.reshape(-1, 1)).flatten()
         y_test = scaler.inverse_transform(y_test_scaled.reshape(-1, 1)).flatten()
 
-        # Calculate MAE in original scale
         test_mae_original = mean_absolute_error(y_test, y_pred)
-
-        # Calculate normalized MAE (MAE divided by range of 10th to 90th quantiles)
         test_mae_normalized = test_mae_original / rt_range
 
-        # Linear regression between y_test and y_pred
         linreg = LinearRegression()
         linreg.fit(y_test.reshape(-1, 1), y_pred.reshape(-1, 1))
         y_pred_lin = linreg.predict(y_test.reshape(-1, 1)).flatten()
@@ -265,7 +257,7 @@ def test_group_size(s1, s2, s3):
     # B: 166 → 166 → 128
     xb = Dense(166, activation="relu")(b)
     xb = Dense(128, activation="relu")(xb)
-    # C: igual que B
+    # C: same as B
     xc = Dense(1024, activation="relu")(c)
     xc = Dense(128, activation="relu")(xc)
     # Merge

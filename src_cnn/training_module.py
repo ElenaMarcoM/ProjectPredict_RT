@@ -82,6 +82,7 @@ def create_build_model(input):
         conv_filters = hp.Choice('conv_filters', values=[8, 16, 32])
         num_blocks_res = hp.Int('blocks_resnet', min_value=res_blocks_min, max_value=res_blocks_max)
 
+        # Separation of input into small groups
         for i in range(NUM_SUBGROUPS):
             segment = Lambda(lambda t: t[:, i * SUBGROUP_SIZE:(i + 1) * SUBGROUP_SIZE, :])(input_layer)
             if use_dense:

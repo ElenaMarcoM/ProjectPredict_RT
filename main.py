@@ -8,7 +8,7 @@ from tensorflow.keras.models import load_model
 from src.evaluation import save_results_histogram
 from src.histogram_and_classes import get_class_dict_and_histogram
 from src.training_functions import training
-"""
+
 if __name__ == "__main__":
     # Parameters:
     train_using_classes = False
@@ -26,12 +26,3 @@ if __name__ == "__main__":
     results_df = training(class_dict)
     print(results_df)
     save_results_histogram(results_df)
-
-    # classification_elena()
-    # training_elena()
-"""
-if __name__ == "__main__":
-
-    MODEL_PATH = os.path.join("resources", "model.h5")
-    model = load_model(MODEL_PATH, compile=False)
-    print(model.summary())

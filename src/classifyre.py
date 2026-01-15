@@ -14,7 +14,6 @@ def _submit_query(inchi):
         'query_type': 'STRUCTURE'
     }
     try:
-        # Try form data instead of JSON
         response = requests.post(url, data=payload)
         print(f"Status code: {response.status_code}")
         print(f"Response text: {response.text}")
@@ -54,7 +53,6 @@ def _get_classifications(inchi):
     return []
 
 def classify_with_classyfire():
-    # Extract InChIs from input CSV
     inchis = []
     with open('resources/all_datasets.csv', 'r') as f:
         reader = csv.DictReader(f)
@@ -64,10 +62,8 @@ def classify_with_classyfire():
                 if inchi:
                     inchis.append(inchi)
 
-    # Output file - corrected path
     output_file = 'resources/all_smrt_classifications.csv'
 
-    # Load existing data
     existing = {}
     if os.path.exists(output_file):
         with open(output_file, 'r') as f:
@@ -78,12 +74,10 @@ def classify_with_classyfire():
                     classes = row[1:] if len(row) > 1 else []
                     existing[inchi] = classes
 
-    # Add new InChIs if missing
     for inchi in inchis:
         if inchi not in existing:
             existing[inchi] = []
 
-    # Fill missing classifications and append line by line
     for inchi, classes in list(existing.items()):
         if classes:
             continue
@@ -91,7 +85,6 @@ def classify_with_classyfire():
         print(f"Processing {inchi}")
         all_classes = _get_classifications(inchi)
 
-        # Save this row immediately
         with open(output_file, 'a', newline='') as f:
             writer = csv.writer(f, delimiter='\t')
             if all_classes:
@@ -100,5 +93,5 @@ def classify_with_classyfire():
             else:
                 writer.writerow([inchi])
                 existing[inchi] = []
-
-        time.sleep(1)  # Rate limiting between compounds
+        # Rate limiting between compounds
+        time.sleep(1)
