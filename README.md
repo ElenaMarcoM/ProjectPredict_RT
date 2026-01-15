@@ -30,4 +30,4 @@ link to open API in browser: http://127.0.0.1:8000/docs
 
 **WARNING:** The docker contains a simplified version of the final model due to emerging errors when downloading "lambda" from the final model.
 
-Instructions for building and running the API with the final model are provided through comments in the api/ directory
+Instructions for building and running the API with the final model are provided through comments in the api/api_main.py
